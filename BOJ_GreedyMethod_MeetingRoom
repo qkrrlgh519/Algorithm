@@ -1,0 +1,33 @@
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M [][] = new int [N][2];
+        for(int i=0; i<N; i++){
+            M[i][0] = sc.nextInt();
+            M[i][1] = sc.nextInt();
+        }
+        Arrays.sort(M, new Comparator<int[]>(){
+            @Override
+            public int compare(int[] entry0, int[] entry1){
+                if(entry0[1] == entry1[1]){
+                    return entry0[0] - entry1[0];
+                }else{
+                    return entry0[1] - entry1[1];
+                }
+            }
+        });
+        int cnt = 1;
+        int end = M[0][1];
+        for(int i=1; i<N; i++){
+            if(M[i][0] >= end){
+                cnt++;
+                end = M[i][1];
+            }
+        }
+        System.out.print(cnt);
+    }
+}
