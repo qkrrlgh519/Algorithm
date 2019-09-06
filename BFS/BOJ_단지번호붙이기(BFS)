@@ -1,0 +1,75 @@
+import java.util.Scanner;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
+class dot{
+    int x;
+    int y;
+    dot(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Main{
+    static int n;
+    static int map[][];
+    static int cx [] = {0,0,1,-1};
+    static int cy [] = {1,-1,0,0};
+    static int cnt = 1;
+    static int arr[];
+    
+    static void bfs(int x, int y, int c){
+        Queue<dot> q = new LinkedList<dot>();
+        q.add(new dot(x,y));
+        map[x][y] = c;
+        while(!q.isEmpty()){
+            dot r = q.remove();
+            for(int i=0; i<4; i++){
+                int dx = r.x + cx[i];
+                int dy = r.y + cy[i];
+                if(dx<0 || dx>n-1 || dy<0 || dy>n-1)
+                    continue;
+                if(map[dx][dy] == 1){
+                    q.add(new dot(dx, dy));
+                    map[dx][dy] = c;
+                }
+            }
+        }
+    }
+    
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        map = new int[n][n];
+        for(int i=0; i<n; i++){
+            String temp = sc.next();
+            for(int j=0; j<n; j++){
+                map[i][j] = temp.charAt(j) - 48;
+            }
+        }
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(map[i][j] == 1)
+                    bfs(i, j, ++cnt);
+            }
+        }
+        
+        cnt--;
+        arr = new int[cnt];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(map[i][j] > 1)
+                    arr[map[i][j]-2]++;
+            }
+        }
+        
+        System.out.println(cnt);
+        Arrays.sort(arr);
+        for(int i=0; i<cnt; i++){
+            System.out.println(arr[i]);
+        }
+    }
+}
