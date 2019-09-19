@@ -1,0 +1,44 @@
+import java.util.Scanner;
+public class Main{
+
+    static int n;
+    static int map [][];
+    static boolean visited [][];
+
+    static void dfs(int start, int x, int y){
+        map[start][y] = 1;
+        visited[start][y] = true;
+        for(int i=0; i<n; i++){
+            if(!visited[start][i] && map[y][i] == 1){
+                dfs(start, y, i);
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        map = new int [n][n];
+        visited = new boolean [n][n];
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                map[i][j] = sc.nextInt();
+            }
+        }
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(!visited[i][j] && map[i][j] == 1)
+                    dfs(i, i, j);
+            }
+        }
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                System.out.print(map[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+} 
