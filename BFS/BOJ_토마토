@@ -1,0 +1,86 @@
+import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+
+class dot{
+    int x;
+    int y;
+    dot(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Main{
+    
+  static int cx [] = {0, 0, -1, 1};
+	static int cy [] = {-1, 1, 0, 0};
+	
+	static int m;
+	static int n;
+
+	static Queue<dot> q = new LinkedList<dot>();
+	
+	public static void bfs(int map [][], boolean visited [][]){ //큐에 들어있는 익은 토마토의 위치만 가지고 너비 우선 탐색을 진행한다.
+		while(!q.isEmpty()){
+			dot r = q.remove();
+			for(int i=0; i<4; i++){
+				int nx = r.x + cx[i];
+				int ny = r.y + cy[i];
+				
+				if(-1<nx && nx<n && -1<ny && ny<m && map[nx][ny]==0 && !visited[nx][ny]){
+					map[nx][ny] = map[r.x][r.y] + 1;
+					visited[nx][ny] = true;
+					q.add(new dot(nx,ny));
+				}
+			}
+		}
+	}
+	
+	public static void bfsstart(int x, int y, int map[][], boolean visited[][]){  //상자안의 익은 토마토의 위치를 전부 큐에 넣는다.
+		map[x][y] = 1;
+		visited[x][y] = true;
+		q.add(new dot(x,y));	
+	}
+	
+    public static void main(String[] args){
+        		Scanner sc = new Scanner(System.in);
+		m = sc.nextInt();	//가로 크기 입력
+		n = sc.nextInt();	//세로 크기 입력
+		int map [][] = new int [n][m];
+		boolean visited [][] = new boolean [n][m];
+	
+		for(int i=0; i<n; i++){	//상자의 상황 입력
+			for(int j=0; j<m; j++){
+				map[i][j] = sc.nextInt();
+			}
+		}
+		
+		for(int i=0; i<n; i++){	//일단 모든 시작점 큐에 넣는다.
+			for(int j=0; j<m; j++){
+				if(map[i][j] == 1 && !visited[i][j])
+					bfsstart(i, j, map, visited);
+			}
+		}
+		
+		bfs(map, visited);	//큐에 있는 익은 토마토 위치만 가지고 BFS 수행
+		
+		int max = 0;
+		int zerocnt = 0;
+		for(int i=0; i<n; i++){	//얼마나 걸리는지 시간 체크, 못 익는 상황인지 체크
+			for(int j=0; j<m; j++){
+				if(map[i][j] == 0)
+					zerocnt++;
+				else{
+					if(max<map[i][j])
+						max = map[i][j];
+				}
+			}
+		}
+		
+		if(zerocnt == 0)
+			System.out.println(max-1);    //다 익은 상황
+		else
+			System.out.println(-1);    //다 못 익은 상황
+    }
+}
