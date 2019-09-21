@@ -1,0 +1,101 @@
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class dot{
+	int x;
+	int y;
+	dot(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+}
+
+public class Main{
+    
+  static int m;
+	static int n;
+	static int k;
+	
+	static int map [][];	//모눈 종이
+	static boolean visited [][];	//방문 체크
+	static int kpoint [][];	//직사각형의 꼭지점
+	static int temp [];	//각 영역의 크기를 일시적으로 출력 받음
+	static int ans []; //temp[]배열로 부터 각 영역의 크기를 복사함(answer의 약자)
+	static int cnt = 0; //영역의 개수를 셈(count의 약자)
+	
+	static int cx [] = {0, 0, 1, -1};
+	static int cy [] = {1, -1, 0, 0};
+    
+  public static int bfs(int x, int y){
+		int count = 1;
+		map[x][y] = count++;
+		visited[x][y] = true;
+		Queue<dot> q = new LinkedList<dot>();
+		q.add(new dot(x,y));
+		
+		while(!q.isEmpty()){
+			dot r = q.remove();
+			for(int i=0; i<4; i++){
+				int dx = r.x + cx[i];
+				int dy = r.y + cy[i];
+				if(-1<dx && dx<n && -1<dy && dy<m && map[dx][dy]==0 && !visited[dx][dy]){
+					map[dx][dy] = count++;
+					visited[dx][dy] = true;
+					q.add(new dot(dx, dy));
+				}
+			}
+		}
+
+		return --count;
+	}
+    
+  public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+		m = sc.nextInt();
+		n = sc.nextInt();
+		k = sc.nextInt();
+	
+		map = new int [n][m];
+		visited = new boolean [n][m];
+		kpoint = new int [k][4];
+		temp = new int [n*m];
+		
+		for(int i=0; i<k; i++){
+			kpoint[i][0] = sc.nextInt();
+			kpoint[i][1] = sc.nextInt();
+			kpoint[i][2] = sc.nextInt();
+			kpoint[i][3] = sc.nextInt();
+		}	//입력 받는 부분
+		
+		for(int i=0; i<k; i++){
+			for(int j=kpoint[i][0]; j<kpoint[i][2]; j++){
+				for(int l=kpoint[i][1]; l<kpoint[i][3]; l++){
+					map[j][l] = -1;
+				}
+			}
+		}	//모눈 종이에 직사각형 그리는 과정
+		
+		for(int i=0; i<n; i++){
+			for(int j=0; j<m; j++){
+				if(map[i][j] == 0 && !visited[i][j]){
+					temp[cnt] = bfs(i,j);
+					cnt++;
+				}
+			}
+		}
+		
+		ans = new int[cnt];
+		for(int i=0; i<cnt; i++){	//temp로부터 ans로 복사
+			ans[i] = temp[i];
+		}
+		
+		Arrays.sort(ans);	//오름차순 정렬
+		
+		System.out.println(cnt);
+		for(int i=0; i<cnt; i++){
+			System.out.print(ans[i]+" ");
+		}// 출력 받는 부분
+    }
+}
