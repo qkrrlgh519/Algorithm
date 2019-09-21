@@ -1,0 +1,99 @@
+import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Queue;
+
+class dot{
+	int z;
+	int x;
+	int y;
+	dot(int z, int x, int y){
+		this.z = z;
+		this.x = x;
+		this.y = y;
+	}
+}
+
+public class Main{
+  static int maxcount = 0;
+	static int zerocount = 0;
+	
+	static int h;
+	static int m;
+	static int n;
+	
+	static int map [][][];
+	static boolean visited [][][];
+	
+	static Queue<dot> q = new LinkedList<dot>();
+
+	static int cz [] = {1,-1,0,0,0,0,};
+	static int cx [] = {0,0,0,0,1,-1};
+	static int cy [] = {0,0,1,-1,0,0};
+	
+	public static void bfs(){
+		while(!q.isEmpty()){
+			dot r = q.remove();
+			for(int i=0; i<6; i++){
+				int dz = r.z + cz[i];
+				int dx = r.x + cx[i];
+				int dy = r.y + cy[i];
+				
+				if(-1<dx && dx<n && -1<dy && dy<m && -1<dz && dz<h && map[dz][dx][dy] == 0 && !visited[dz][dx][dy]){
+					map[dz][dx][dy] = map[r.z][r.x][r.y]+1;
+					visited[dz][dx][dy] = true;
+					q.add(new dot(dz,dx,dy));
+				}
+			}
+		}
+	}
+    
+  public static void main(String[] args){
+    Scanner sc = new Scanner(System.in);
+		
+		m = sc.nextInt();	//가로
+		n = sc.nextInt();	//세로
+		h = sc.nextInt();	//높이
+		
+		map = new int [h][n][m];
+		visited = new boolean [h][n][m];
+		
+		for(int i=0; i<h; i++){
+			for(int j=0; j<n; j++){
+				for(int k=0; k<m; k++){
+					map[i][j][k] = sc.nextInt();
+				}
+			}
+		}	//토마토의 정보 입력 받음
+		
+		for(int i=0; i<h; i++){
+			for(int j=0; j<n; j++){
+				for(int k=0; k<m; k++){
+					if(map[i][j][k] == 1 && !visited[i][j][k]){
+						visited[i][j][k] = true;
+						q.add(new dot(i,j,k));
+					}
+				}
+			}
+		}	//상자의 모든 익은 토마토의 큐에 넣는다.
+		
+		bfs();	//너비 우선 탐색 진행
+		
+		for(int i=0; i<h; i++){
+			for(int j=0; j<n; j++){
+				for(int k=0; k<m; k++){
+					if(map[i][j][k] == 0)
+						zerocount++;
+					else{
+						if(map[i][j][k] > maxcount)
+							maxcount = map[i][j][k] - 1;
+					}
+				}
+			}
+		}	//다 익는데 걸린 시간과 안 익은 토마토 있는지 체크
+		
+		if(zerocount > 0)
+			System.out.println(-1);
+		else
+			System.out.println(maxcount);
+    }
+}
