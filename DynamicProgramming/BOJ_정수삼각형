@@ -1,0 +1,40 @@
+import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int rec [][] = new int [n][n];
+		int dp [][] = new int [n][n];
+		
+		for(int i=0; i<n; i++){
+			for(int j=0; j<i+1; j++){
+				rec[i][j] = sc.nextInt();
+			}
+		}//입력받는 부분
+        
+		dp[0][0] = rec[0][0];//basecase
+		
+		for(int i=1; i<n; i++){
+			for(int j=0; j<i+1; j++){
+				if(j == 0){
+					dp[i][j] = dp[i-1][j] + rec[i][j];//이런 부분적이고, 예외적인 부분을 잘 처리 해야한다.
+				}
+				else if(j == i){
+					dp[i][j] = dp[i-1][j-1] + rec[i][j];//이런 부분적이고, 예외적인 부분을 잘 처리해야 한다.
+				}
+				else{
+					dp[i][j] = rec[i][j] + Math.max(dp[i-1][j-1], dp[i-1][j]);
+				}
+			}
+		}//Dynamic Programming
+		//부분적이고 예외적인 부분을 잘 처리하기위해서 점화식을 좀더 명확하고 구체적으로 짜야할 것 같다.
+		
+		int max = 0;
+		for(int i=0; i<n; i++){
+			if(max <= dp[n-1][i])
+				max = dp[n-1][i];
+		}
+        
+        System.out.print(max);
+    }
+}
