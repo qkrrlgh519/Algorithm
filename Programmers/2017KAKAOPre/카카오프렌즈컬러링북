@@ -1,0 +1,131 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
+class dot{
+    int x;
+    int y;
+    dot(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Solution{
+    
+    static int m;
+    static int n;
+    static int [][] picture;
+    
+    static boolean [][] visited;
+    static int cx [] = {0, 0, 1, -1};
+    static int cy [] = {1, -1, 0, 0};
+    
+    static int bfs(int x, int y){
+        int temp = 0;
+        visited[x][y] = true;
+        Queue<dot> q = new LinkedList<dot>();
+        q.add(new dot(x,y));
+        while(q.isEmpty()){
+            dot r = q.remove();
+            temp++;
+            for(int i=0; i<4; i++){
+                int dx = r.x + cx[i];
+                int dy = r.y + cy[i];
+                if(0<=dx && dx<m && 0<=dy && dy<n && picture[dx][dy] == picture[x][y] && !visited[dx][dy]){
+                    visited[dx][dy] = true;
+                    q.add(new dot(dx,dy));
+                }
+            }
+        }
+        return temp;
+    }
+    
+    public int[] solution(int m, int n, int [][] picture){
+        
+        this.m = m;
+        this.n = n;
+        this.picture = picture;
+        
+        int numberOfArea = 0;
+        int maxSizeOfOneArea = 0;
+      
+        int[] answer = new int[2];
+        
+        visited = new boolean [m][n];
+        
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(picture[i][j] != 0 && !visited[i][j]){
+                    int temp = bfs(i,j);
+                    if(temp >= maxSizeOfOneArea) maxSizeOfOneArea = temp;
+                    numberOfArea++;
+                }
+            }
+        }
+        
+        answer[0] = numberOfArea;
+        answer[1] = maxSizeOfOneArea;
+      
+        System.out.println(numberOfArea);
+        System.out.println(maxSizeOfOneArea);
+        
+        return answer;
+    }
+}
+
+
+/*import java.util.Stack;
+import java.util.LinkedList;
+
+class Solution {
+           
+  public int[] solution(int m, int n, int[][] picture) {
+      
+      int numberOfArea = 0;
+      int maxSizeOfOneArea = 0;
+      
+      int[] answer = new int[2];
+
+      Stack<Integer> stackX = new Stack<Integer>();
+      Stack<Integer> stackY = new Stack<Integer>();
+      
+      boolean visited [][] = new boolean [m][n];
+      int count = 0;
+      
+      int cx [] = {0, 0, 1, -1};
+      int cy [] = {1, -1, 0, 0};
+      
+      for(int i=0; i<m; i++){
+			for(int j=0; j<n; j++){
+				if(picture[i][j]!=0 && !visited[i][j]){
+                    visited[i][j] = true;
+                    stackX.add(i);
+                    stackY.add(j);
+                    count++;
+                    while(!stackX.isEmpty()){
+                        int rx = stackX.pop();
+                        int ry = stackY.pop();
+                        for(int k=0; k<4; k++){
+                            int dx = rx + cx[k];
+                            int dy = ry + cy[k];
+                            if(0<=dx && dx<m && 0<=dy && dy<n && picture[dx][dy] == picture[i][j] && !visited[dx][dy]){
+                                visited[dx][dy] = true;
+                                stackX.add(dx);
+                                stackY.add(dy);
+                                count++;
+                            }
+                        }
+                    }
+                    if(maxSizeOfOneArea < count) maxSizeOfOneArea = count;
+                    count = 0;
+                    numberOfArea++;
+				}
+			}
+      }
+      
+      answer[0] = numberOfArea;
+      answer[1] = maxSizeOfOneArea;
+      
+      return answer;
+  }
+}*/
