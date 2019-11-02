@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int num [] = new int [n];
+        
+        for(int i=0; i<n; i++)
+            num[i] = sc.nextInt();
+        
+        int dp [] = new int [n];
+        
+        dp[0] = num[0];
+        int max = dp[0];    //int max = 0;으로 하면 안됨 index 0를 고려할 수 없어서
+        
+        for(int i=1; i<n; i++){
+            if(dp[i-1] + num[i] > num[i])
+                dp[i] = dp[i-1] + num[i];
+            else
+                dp[i] = num[i];
+            if(max < dp[i])
+                max = dp[i];
+        }
+        
+        System.out.println(max);
+    }
+}
