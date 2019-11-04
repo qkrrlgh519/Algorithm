@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n, m;
+        n = sc.nextInt();
+		m = sc.nextInt();
+		
+		String strInput [] = new String [2*n];
+		
+		for(int i=0; i<2*n; i++)
+			strInput[i] = sc.next();
+
+		int a [][] = new int [n][m];
+		int b [][] = new int [n][m];
+		
+		for(int i=0; i<n; i++){//입력하는 부분
+			for(int j=0; j<m; j++){
+				a[i][j] = Integer.parseInt(strInput[i].charAt(j)+"");
+			}
+		}
+		
+		for(int i=0; i<n; i++){//입력하는 부분
+			for(int j=0; j<m; j++){
+				b[i][j] = Integer.parseInt(strInput[i+n].charAt(j)+"");
+			}
+		}
+		int number = 0;//변환 횟수 세는 변수
+		int check = 0;
+		
+		if(n<3 || m<3){    //n이나 m이 3보다 작은 경우
+			for(int i=0; i<n; i++){
+				for(int j=0; j<m; j++){
+					if(a[i][j] == b[i][j]){}
+					else
+						check++;
+				}
+			}
+			if(check == 0){
+				System.out.println(0);
+				return;
+			}
+			else{
+				System.out.println(-1);
+				return;
+			}
+		}
+		
+		for(int i=0; i<n-2; i++){
+			for(int j=0; j<m-2; j++){
+				
+				if(a[i][j] == b[i][j]){}
+				else{	//a와 b의 값이 다른 경우 변환 연산
+					for(int k=i; k<i+3; k++){
+						for(int l=j; l<j+3; l++){
+							if(a[k][l] == 1) a[k][l] = 0;
+							else a[k][l] = 1;
+						}
+					}
+					number++;
+				}
+
+				check = 0;
+				for(int k=0; k<n; k++){//a와 b의 값이 같은지 확인
+					for(int l=0; l<m; l++){
+						if(a[k][l] == b[k][l]){}
+						else
+							check++;
+					}
+				}
+				
+				if(check == 0){	//같은 경우
+					System.out.println(number);
+					return;
+				}
+			}
+		}
+		
+		if(check != 0)
+			System.out.println(-1);
+    }
+}
