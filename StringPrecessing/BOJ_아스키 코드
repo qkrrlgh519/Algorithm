@@ -1,0 +1,9 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        char a = sc.next().charAt(0); //int a = sc.next().charAt(0) 이런식으로 하는게 더 간편하다.
+        System.out.print(a-0);
+    }
+}
