@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int answer = 2;
+        for(int i=1; i<=n; i++){
+            answer = i + i;
+            
+            if(9 < i && i < 100)
+				answer = i + i/10 + i%10;
+			
+			if(99 < i && i < 1000)
+				answer = i + i/100 + (i%100)/10 + i%10;
+			
+			if(999 < i && i < 10000)
+				answer = i + i/1000 + (i%1000)/100 + (i%100)/10 + i%10;
+			
+			if(9999 < i && i < 100000)
+				answer = i + i/10000 + (i%10000)/1000 + (i%1000)/100
+				+ (i%100)/10 + i%10;
+			
+			if(99999 < i && i < 1000000)
+				answer = i + i/100000 + (i%100000)/10000 + (i%10000)/1000
+				+ (i%1000)/100 + (i%100)/10 + i%10;
+			
+			if(i == 1000000)
+				answer = i + i/1000000 + (i%1000000)/100000 + (i%100000)/10000
+				+ (i%10000)/1000 + (i%1000)/100 + (i%100)/10 + i%10;
+
+			if(answer == n){
+				answer = i;
+				break;
+			}
+            
+            if(i == n){
+                if(answer != n)
+                    answer = 0;
+            }
+        }
+        
+        System.out.print(answer);
+    }
+}
