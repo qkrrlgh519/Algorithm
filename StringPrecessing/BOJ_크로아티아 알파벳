@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+		String s = sc.next();
+		
+		int answer = 0;
+		
+		for(int i=0; i<s.length(); i++){
+			String temp = s.substring(i,i+1);
+			int check = 0;
+			
+			if(i<s.length()-1 && temp.equals("c")){
+				if((temp+s.substring(i+1,i+2)).equals("c=")){
+					check = 1;
+				}
+				if((temp+s.substring(i+1,i+2)).equals("c-")){
+					check = 1;
+				}
+			}
+			
+			if(i<s.length()-1 && temp.equals("d")){
+				if(i<s.length()-1 && (temp+s.substring(i+1,i+2)).equals("d-")){
+					check = 1;
+				}
+				if(i<s.length()-2 && (temp+s.substring(i+1,i+3)).equals("dz=")){
+					check = 2;
+				}
+			}
+			
+			if(i<s.length()-1 && temp.equals("l")){
+				if((temp+s.substring(i+1,i+2)).equals("lj")){
+					check = 1;
+				}
+			}
+			
+			if(i<s.length()-1 && temp.equals("n")){
+				if((temp+s.substring(i+1,i+2)).equals("nj")){
+					check = 1;
+				}
+			}
+			
+			if(i<s.length()-1 && temp.equals("s")){
+				if((temp+s.substring(i+1,i+2)).equals("s=")){
+					check = 1;
+				}
+			}
+			
+			if(i<s.length()-1 && temp.equals("z")){
+				if((temp+s.substring(i+1,i+2)).equals("z=")){
+					check = 1;
+				}
+			}
+			
+			if(check == 0)
+				answer++;
+			if(check == 1){
+				answer++;
+				i++;
+			}
+			if(check == 2){
+				answer++;
+				i += 2;
+			}
+		}
+		
+		System.out.println(answer);
+    }
+}
