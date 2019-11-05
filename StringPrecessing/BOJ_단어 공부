@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        
+        int answer [] = new int [26];
+        
+        for(int i=0; i<s.length(); i++){
+			int index = s.charAt(i);
+			if(97<=index && index<=122)
+				index -= 97;
+			else
+				index -= 65;
+			answer[index]++;
+		}
+		
+		int max = 0;
+		int maxIndex = 0;
+		for(int i=0; i<26; i++){
+			if(max <= answer[i]){
+				max = answer[i];
+				maxIndex = i;
+			}
+		}
+		
+		int maxCheck = 0;
+		for(int i=0; i<26; i++){
+			if(answer[i] == answer[maxIndex])
+				maxCheck++;
+		}
+		
+		if(maxCheck == 1){
+			char a = (char)(maxIndex+65);
+			System.out.print(a);
+		}else{
+			System.out.print("?");
+		}
+    }
+}
