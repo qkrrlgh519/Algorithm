@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+		String s = sc.next();
+		int answer = 0;
+		for(int i=0; i<s.length(); i++){
+			char sChar = s.charAt(i);
+			if('A' <= sChar && sChar <= 'C')
+				answer += 3;
+			if('D' <= sChar && sChar <= 'F')
+				answer += 4;
+			if('G' <= sChar && sChar <= 'I')
+				answer += 5;
+			if('J' <= sChar && sChar <= 'L')
+				answer += 6;
+			if('M' <= sChar && sChar <= 'O')
+				answer += 7;
+			if('P' <= sChar && sChar <= 'S')
+				answer += 8;
+			if('T' <= sChar && sChar <= 'V')
+				answer += 9;
+			if('W' <= sChar && sChar <= 'Z')
+				answer += 10;
+		}
+		
+		System.out.print(answer);
+    }
+}
