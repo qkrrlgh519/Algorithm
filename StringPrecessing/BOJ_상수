@@ -1,0 +1,15 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String a = sc.next();
+        String b = sc.next();
+        String a2 = a.substring(2,3) + a.substring(1,2) + a.substring(0,1);
+        String b2 = b.substring(2,3) + b.substring(1,2) + b.substring(0,1);
+        if(Integer.parseInt(a2) > Integer.parseInt(b2))
+            System.out.print(a2);
+        else
+            System.out.print(b2);
+    }
+}
