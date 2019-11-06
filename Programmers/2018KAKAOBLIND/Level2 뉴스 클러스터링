@@ -1,0 +1,126 @@
+class Solution {
+  public int solution(String str1, String str2) {
+      int answer = 0;
+      
+      str1 = str1.toLowerCase();
+		str2 = str2.toLowerCase();
+		
+		int str1Size = 0;
+		int str2Size = 0;
+		
+		for(int i=0; i<str1.length()-1; i++){
+			char left = str1.charAt(i);
+			char right = str1.charAt(i+1);
+			if(97<=left && left<=122 && 97<=right && right<=122)
+				str1Size++;
+		}
+
+		for(int i=0; i<str2.length()-1; i++){
+			char left = str2.charAt(i);
+			char right = str2.charAt(i+1);
+			if(97<=left && left<=122 && 97<=right && right<=122)
+				str2Size++;
+		}
+		
+		String arr1 [] = new String [str1Size];	//부분 문자열 집합
+		String arr2 [] = new String [str2Size];	//부분 문자열 집합
+		
+		int index1 = 0;
+		for(int i=0; i<str1.length()-1; i++){
+			char left = str1.charAt(i);
+			char right = str1.charAt(i+1);
+			if(97<=left && left<=122 && 97<=right && right<=122)
+				arr1[index1++] = str1.substring(i, i+2);
+		}
+		
+		int index2 = 0;
+		for(int i=0; i<str2.length()-1; i++){
+			char left = str2.charAt(i);
+			char right = str2.charAt(i+1);
+			if(97<=left && left<=122 && 97<=right && right<=122)
+				arr2[index2++] = str2.substring(i, i+2);
+		}
+		
+		int maxmin [][] = new int [str1Size+str2Size][2];
+		int index3 = 0;
+		for(int i=0; i<str1Size; i++){
+			boolean flag = false;
+			
+			if(!arr1[i].equals(" ")){	//중복 되면 " "으로 변환되서 중복이 아닌 경우
+				flag = true;
+				int check = 0;
+				for(int j=i; j<str1Size; j++){
+					if(arr1[i].equals(arr1[j])){
+						maxmin[index3][0]++;
+						check++;
+						if(check > 1)
+							arr1[j] = " ";
+					}
+				}
+				for(int j=0; j<str2Size; j++){
+					if(arr1[i].equals(arr2[j])){
+						maxmin[index3][1]++;
+						arr2[j] =  " ";
+					}
+				}
+			}
+			
+			if(flag = true){
+				index3++;
+				arr1[i] = " ";
+			}
+		}
+		
+		for(int i=0; i<str2Size; i++){
+			boolean flag = false;
+			if(!arr2[i].equals(" ")){
+				flag = true;
+				int check = 0;
+				for(int j=i; j<str2Size; j++){
+					if(arr2[i].equals(arr2[j])){
+						maxmin[index3][1]++;
+						check++;
+						if(check>1)
+							arr2[j] = " ";
+					}
+				}
+			}
+			if(flag == true){
+				arr2[i] = " ";
+				index3++;
+			}
+		}
+		
+		float high = 0;
+		float low = 0;
+
+		
+		for(int i=0; i<index3; i++){
+			if(maxmin[i][0] >= maxmin[i][1]){
+				high += maxmin[i][0];
+				low += maxmin[i][1];
+			}
+			else{
+				high += maxmin[i][1];
+				low += maxmin[i][0];
+			}
+		}
+		
+		float temp = 0;
+		
+		if(low == 0 || high == 0)
+		{
+			temp = 0;
+		}
+		if(low == 0 && high == 0){
+			temp = 1;
+		}
+		if(low !=0 && high != 0){
+			temp = low/high;
+		}
+		
+		answer = (int)(temp*65536);
+      
+      return answer;
+  }
+}
