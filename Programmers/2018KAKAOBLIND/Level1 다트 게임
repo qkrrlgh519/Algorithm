@@ -1,0 +1,54 @@
+class Solution {
+  public int solution(String dartResult) {
+      int answer = 0;
+      
+      int point [] = new int [3];	//점수
+      int index = 0;
+
+      for(int i=0; i<dartResult.length(); i++){
+        String temp = dartResult.substring(i,i+1);
+        if(temp.equals("0") || temp.equals("1") || temp.equals("2") || temp.equals("3") 
+            || temp.equals("4") || temp.equals("5") || temp.equals("6") 
+            || temp.equals("7") || temp.equals("8") || temp.equals("9")){	//점수 체크
+
+          if(temp.equals("1")){
+            point[index] = Integer.parseInt(temp);
+            if((dartResult.substring(i+1, i+2)).equals("0")){	//10인 경우
+              point[index++] = Integer.parseInt(dartResult.substring(i,i+2));
+              i++;
+            }
+            else point[index++] = Integer.parseInt(temp);	//1인 경우
+          }
+          else point[index++] = Integer.parseInt(temp);	//1빼고 모든경우
+        }
+
+        if(temp.equals("D")){
+          point[index-1] *= point[index-1];
+        }
+
+        if(temp.equals("T")){
+          point[index-1] *= point[index-1] * point[index-1];
+        }
+
+        if(temp.equals("*")){
+          if(index == 1){
+            point[index-1] *= 2;
+          }
+          else{
+            point[index-2] *= 2;
+            point[index-1] *= 2;
+          }
+        }
+
+        if(temp.equals("#")){
+          point[index-1] *= -1;
+        }
+      }
+
+      for(int i=0; i<3; i++){
+        answer += point[i];
+      }
+
+        return answer;
+    }
+  }
