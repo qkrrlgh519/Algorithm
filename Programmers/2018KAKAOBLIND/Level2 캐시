@@ -1,0 +1,41 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
+class Solution {
+  public int solution(int cacheSize, String[] cities) {
+      int answer = 0;
+      Queue<String> q = new LinkedList<String>();
+      
+      if(cacheSize  < 1)
+          answer = 5 * cities.length;
+      else{
+          for(int i=0; i<cities.length; i++){
+              boolean flag = false;
+              
+              if(q.size() > 0){   //NoSuchElementException 오류 잡기 위한 코드
+                  for(String city : q){
+                      if(cities[i].toLowerCase().equals(city.toLowerCase())){//큐 안에 선택한 도시 있는 경우
+                          flag = true;
+                      }
+                  }
+              }
+              
+              if(flag == true){
+                  answer += 1;  //cache hit
+                  if(q.size() == cacheSize)
+                      q.remove(cities[i].toLowerCase());
+              }
+              else{
+                  answer += 5;  //cache miss
+                  if(q.size() == cacheSize)
+                      q.remove();
+              }
+
+              if(q.size() < cacheSize)
+                  q.add(cities[i].toLowerCase());
+          }
+      }
+    
+      return answer;
+  }
+}
