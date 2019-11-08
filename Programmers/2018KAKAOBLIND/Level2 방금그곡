@@ -1,0 +1,56 @@
+class Solution {
+  public String solution(String m, String[] musicinfos) {
+      String answer = "";
+      
+		String [][] infoArr = new String [musicinfos.length][4];
+		//index0 = 시작시간, index1 = 종료시간, index2 = 제목, index3 = 음
+		
+		int [] timeArr = new int [musicinfos.length];//음악의 총 재생 시간
+		String [] musicArr = new String [musicinfos.length];	//재생 시간만큼의 음
+		
+		m = m.replace("C#", "c");
+		m = m.replace("D#", "d");
+		m = m.replace("F#", "f");
+		m = m.replace("G#", "g");
+		m = m.replace("A#", "a");
+		
+		for(int i=0; i<musicinfos.length; i++){
+			
+			String [] split = musicinfos[i].split(",");
+			for(int j=0; j<4; j++){
+				infoArr[i][j] = split[j];
+			}
+			
+			infoArr[i][3] = infoArr[i][3].replace("C#", "c");
+			infoArr[i][3] = infoArr[i][3].replace("D#", "d");
+			infoArr[i][3] = infoArr[i][3].replace("F#", "f");
+			infoArr[i][3] = infoArr[i][3].replace("G#", "g");
+			infoArr[i][3] = infoArr[i][3].replace("A#", "a");
+			
+			int leftHour = Integer.parseInt(infoArr[i][0].substring(0,2));
+			int rightHour = Integer.parseInt(infoArr[i][1].substring(0,2));
+			int leftSecond = Integer.parseInt(infoArr[i][0].substring(3,5));
+			int rightSecond = Integer.parseInt(infoArr[i][1].substring(3,5));
+			timeArr[i] = (rightHour - leftHour) * 60 + (rightSecond - leftSecond);//시간 구하고
+			
+			musicArr[i] = "";
+			for(int j=0; j<timeArr[i]; j++){
+				musicArr[i] += infoArr[i][3].charAt(j%infoArr[i][3].length());
+			}
+			//System.out.println(musicArr[i]);
+		}
+		
+		answer = "(None)";
+		int time = 0;
+		for(int i=0; i<musicinfos.length; i++){
+			if(musicArr[i].indexOf(m) != -1){//겹치는 게 있는 경우
+				if(time < timeArr[i]){
+					time = timeArr[i];
+					answer = infoArr[i][2];
+				}
+			}
+		}
+      
+      return answer;
+  }
+}
