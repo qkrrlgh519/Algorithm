@@ -1,0 +1,90 @@
+import java.util.ArrayList;
+class Solution {
+public int[] solution(String msg) {
+      int[] answer;
+      
+      //첫 번째 풀이
+      /*ArrayList<String> dicArr = new ArrayList<String> (); //사전
+      ArrayList<Integer> ansArr = new ArrayList<Integer> ();
+		
+      int maxString = 1;//사전에서 가장 긴 단어의 길이
+      dicArr.add(" ");		
+      for(char a = 'A'; a <= 'Z'; a++){//길이 1인 글자 초기화
+          dicArr.add(String.valueOf(a));
+      }
+      
+      		
+      for(int i=0; i<msg.length(); i++){			
+          String temp = msg.substring(i);//한글자씩 줄어든다.			
+			
+          for(int j=maxString; j>0; j--){				
+              if(j <= temp.length()){					
+                  String temp2 = temp.substring(0,j);//이미 줄어들었으니 0부터 시작					
+                  int c = 0;					
+					
+                  for(int k=dicArr.size()-1; k>=0; k--){//사전 맨 뒤부터 맨 앞까지 탐색과정						
+                      if(temp2.equals(dicArr.get(k))){//사전에 있는 경우							
+                          ansArr.add(k);							
+                          i+=j-1;							
+                          c = j;
+                          break;						
+                      }                   
+                  }
+					
+                  if(c != 0 && c+1 < temp.length()){//사전에 있는 경우 사전 변경						
+                      dicArr.add(temp.substring(0,c+1));//w+c를 사전에 등록한다.						
+                      if(maxString<temp.substring(0, c+1).length())							
+                          maxString = temp.substring(0, c+1).length();						
+                      break;					
+                  }
+
+                  if(c != 0)
+                      break;
+              }
+			
+          }
+          if(i == msg.length()-1)				
+              break;		
+      }
+      
+      		
+      answer = new int[ansArr.size()];		
+      for(int i=0; i<ansArr.size(); i++){			
+          answer[i] = ansArr.get(i);
+      }*/
+      //첫 번째 풀이 종료
+      
+      
+      //두 번째 풀이
+    	ArrayList<String> dicArr = new ArrayList<String> (); //사전리스트
+	    ArrayList<Integer> ansArr = new ArrayList<Integer> ();	//정답리스트
+	    
+	    dicArr.add(" ");
+	    for(char a = 'A'; a<='Z'; a++){
+	    	dicArr.add(String.valueOf(a));
+	    }
+
+	    for(int i=0; i<msg.length(); i++){
+	    	String msgTemp = msg.substring(i);
+	    	
+	    	for(int j=dicArr.size()-1; j>=0; j--){//사전 맨 뒤부터 하나씩 찾아간다!
+	    		if(msgTemp.indexOf(dicArr.get(j)) == 0){//찾았넹!!
+	    			ansArr.add(j);
+	    			i += dicArr.get(j).length()-1;
+	    			if(dicArr.get(j).length()+1 <= msgTemp.length() ){
+	    				dicArr.add(msgTemp.substring(0,dicArr.get(j).length()+1));
+	    			}
+	    			break;
+	    		}
+	    	}
+	    }
+	    
+	    answer = new int [ansArr.size()];
+	    int j=0;
+	    for(int i : ansArr){
+	    	answer[j++] = i;
+	    }
+      
+      return answer;
+  }
+}
